@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     # Third party
     'rest_framework',
     'corsheaders',
-    'users'
+    'users',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 
 MIDDLEWARE = [
