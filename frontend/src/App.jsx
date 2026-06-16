@@ -1,121 +1,69 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { register, login, logout, getMe } from './services/auth'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState('')
+  const [user, setUser] = useState(null)
+
+  const handleRegister = async () => {
+    try {
+      await register('testuser', 'test@test.com', '12345678')
+      setMessage('Registered successfully')
+    } catch (err) {
+      setMessage(err.response?.data?.username?.[0] || 'Register failed')
+    }
+  }
+
+  const handleLogin = async () => {
+    try {
+      await login('testuser', '12345678')
+      setMessage('Logged in successfully')
+    } catch (err) {
+      setMessage('Login failed')
+    }
+  }
+
+  const handleMe = async () => {
+    try {
+      const data = await getMe()
+      setUser(data)
+      setMessage('Got user profile')
+    } catch (err) {
+      setMessage('Not authenticated')
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      setUser(null)
+      setMessage('Logged out')
+    } catch (err) {
+      setMessage('Logout failed')
+    }
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1>Wanas ونس — Connection Test</h1>
 
-      <div className="ticks"></div>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <button onClick={handleRegister}>Register</button>
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleMe}>Get My Profile</button>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {message && <p style={{ color: 'green' }}><strong>{message}</strong></p>}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {user && (
+        <div style={{ background: '#f5f5f5', padding: '1rem', borderRadius: '8px' }}>
+          <p>Username: {user.username}</p>
+          <p>Email: {user.email}</p>
+          <p>Joined: {new Date(user.created_at).toLocaleDateString()}</p>
+        </div>
+      )}
+    </div>
   )
 }
 
