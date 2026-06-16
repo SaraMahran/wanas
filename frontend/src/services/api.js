@@ -35,7 +35,7 @@ api.interceptors.response.use(
         original.headers.Authorization = `Bearer ${res.data.access}`
         return api(original)
       } catch {
-        // Refresh also failed, clear tokens and force login
+        // Refresh failed, clear tokens and force re-login
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
       }

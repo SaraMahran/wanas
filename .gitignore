@@ -18,6 +18,9 @@ media/
 .env
 .env.*
 
+backend/.env
+frontend/.env
+
 # Node / React
 node_modules/
 dist/
