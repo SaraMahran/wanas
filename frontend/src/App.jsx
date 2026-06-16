@@ -1,69 +1,29 @@
-import { useState } from 'react'
-import { register, login, logout, getMe } from './services/auth'
+import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar/Navbar'
+import Home from './pages/Home/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 function App() {
-  const [message, setMessage] = useState('')
-  const [user, setUser] = useState(null)
+  const [dark, setDark] = useState(() => {
+    return localStorage.getItem('wanas-theme') === 'dark'
+  })
 
-  const handleRegister = async () => {
-    try {
-      await register('testuser', 'test@test.com', '12345678')
-      setMessage('Registered successfully')
-    } catch (err) {
-      setMessage(err.response?.data?.username?.[0] || 'Register failed')
-    }
-  }
-
-  const handleLogin = async () => {
-    try {
-      await login('testuser', '12345678')
-      setMessage('Logged in successfully')
-    } catch (err) {
-      setMessage('Login failed')
-    }
-  }
-
-  const handleMe = async () => {
-    try {
-      const data = await getMe()
-      setUser(data)
-      setMessage('Got user profile')
-    } catch (err) {
-      setMessage('Not authenticated')
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      await logout()
-      setUser(null)
-      setMessage('Logged out')
-    } catch (err) {
-      setMessage('Logout failed')
-    }
-  }
+  useEffect(() => {
+    document.body.classList.toggle('dark', dark)
+    localStorage.setItem('wanas-theme', dark ? 'dark' : 'light')
+  }, [dark])
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Wanas ونس — Connection Test</h1>
-
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-        <button onClick={handleRegister}>Register</button>
-        <button onClick={handleLogin}>Login</button>
-        <button onClick={handleMe}>Get My Profile</button>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-
-      {message && <p style={{ color: 'green' }}><strong>{message}</strong></p>}
-
-      {user && (
-        <div style={{ background: '#f5f5f5', padding: '1rem', borderRadius: '8px' }}>
-          <p>Username: {user.username}</p>
-          <p>Email: {user.email}</p>
-          <p>Joined: {new Date(user.created_at).toLocaleDateString()}</p>
-        </div>
-      )}
-    </div>
+    <BrowserRouter>
+      <Navbar dark={dark} setDark={setDark} />
+      <Routes>
+        <Route path="/" element={<Home dark={dark} />} />
+        <Route path="/login" element={<Login dark={dark} />} />
+        <Route path="/register" element={<Register dark={dark} />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
