@@ -1,6 +1,8 @@
 from django.db import models
 from users.models import UserProfile
-
+from django.db import models
+from pgvector.django import VectorField
+from users.models import UserProfile
 
 class Mood(models.Model):
     # Predefined moods users can pick from
@@ -17,10 +19,13 @@ class Quote(models.Model):
     author = models.CharField(max_length=255)
     book = models.CharField(max_length=255, blank=True, null=True)
     moods = models.ManyToManyField(Mood, related_name='quotes')
-
-    # Vector embedding stored as text for now, pgvector comes later
-    embedding = models.JSONField(blank=True, null=True)
-
+    embedding = VectorField(dimensions=384, blank=True, null=True)
+    keywords = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Comma-separated keywords e.g. hope, loss, time, identity"
+    )
     added_by = models.ForeignKey(
         UserProfile,
         on_delete=models.SET_NULL,

@@ -103,3 +103,20 @@
 }
 
 .auth-switch a:hover { text-decoration: underline; }
+
+/* ── Mobile < 768px ── */
+@media (max-width: 767px) {
+  .auth-page {
+    align-items: flex-start;
+    padding: 2rem 1rem;
+  }
+
+  .auth-card {
+    padding: 1.8rem 1.2rem;
+    border-radius: 16px;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+}
