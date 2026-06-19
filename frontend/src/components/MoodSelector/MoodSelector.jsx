@@ -9,14 +9,14 @@ const MOODS = [
   { emoji: '💛', name: 'ممتنن' },
 ]
 
-export default function MoodSelector({ dark, onSelect }) {
+export default function MoodSelector({ dark, moods = [], onSelect }) {
   return (
     <div className={`mood-selector ${dark ? 'dark' : ''}`}>
       <p className="mood-title">حاسس بإيه دلوقت؟</p>
       <div className="mood-grid">
-        {MOODS.map(mood => (
+        {moods.map(mood => (
           <button
-            key={mood.name}
+            key={mood.id}
             className="mood-btn"
             onClick={() => onSelect(mood)}
           >
