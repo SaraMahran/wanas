@@ -22,7 +22,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Diagonal warmth bleeding in from the bottom-right corner */
+/* Diagonal triangle — top-right corner */
 .quote-card::before {
   content: '';
   position: absolute;
@@ -30,12 +30,13 @@
   right: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top left, #C49A72 0%, rgba(196, 154, 114, 0.3) 45%, transparent 68%);
+  background: #C49A72;
+  clip-path: polygon(55% 0%, 100% 0%, 100% 60%);
   z-index: 0;
 }
 
 .quote-card.dark::before {
-  background: linear-gradient(to top left, #5C3D2E 0%, rgba(92, 61, 46, 0.3) 45%, transparent 68%);
+  background: #5C3D2E;
 }
 
 /* Opening quote mark */
@@ -53,20 +54,19 @@
   z-index: 1;
 }
 
-/* Closing quote mark */
+/* Closing quote mark — bottom-right corner */
 .quote-end-mark {
   position: absolute;
-  bottom: 5.5rem;
+  bottom: 1.5rem;
   right: 2rem;
   font-family: 'Lora', serif;
-  font-size: 5rem;
+  font-size: 3rem;
   color: var(--warm-gold);
-  opacity: 0.08;
+  opacity: 0.35;
   line-height: 1;
   pointer-events: none;
   user-select: none;
   z-index: 1;
-  transform: rotate(180deg);
 }
 
 .quote-card.dark .quote-bg-mark,

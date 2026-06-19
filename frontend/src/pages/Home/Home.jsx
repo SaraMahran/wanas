@@ -149,7 +149,6 @@ export default function Home({ dark }) {
         <section className="quote-section">
           <article className={`quote-card ${dark ? 'dark' : ''}`}>
             <span className="quote-bg-mark">"</span>
-            <span className="quote-end-mark">"</span>
             <blockquote className="quote-text">
               {renderQuoteText(quote.text)}
             </blockquote>
@@ -162,6 +161,7 @@ export default function Home({ dark }) {
                 {quote.book && <span className="quote-book">{quote.book}</span>}
               </div>
             </footer>
+            <span className="quote-end-mark">"</span>
           </article>
 
           <button className="btn-secondary" onClick={() => fetchQuote()}>
