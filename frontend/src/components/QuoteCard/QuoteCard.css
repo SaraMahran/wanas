@@ -1,16 +1,15 @@
+/*
 .quote-card {
   width: 100%;
   max-width: 480px;
   border-radius: 24px;
   position: relative;
-  overflow: hidden;
   box-shadow: 0 16px 56px rgba(232, 132, 114, 0.25);
   animation: fadeSlideUp 0.6s ease forwards;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background: #FAF6F0;
-  padding: 3rem 3rem 2.5rem;
+  padding: 2.5rem 2.5rem 2rem;
 }
 
 .quote-card.dark {
@@ -22,69 +21,76 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Diagonal triangle — top-right corner */
-.quote-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: #C49A72;
-  clip-path: polygon(55% 0%, 100% 0%, 100% 60%);
-  z-index: 0;
+*/
+
+
+
+/* The inner bordered box that frames the quote text */
+/*
+.quote-inner {
+  position: relative;
+  border: 1.5px solid #C49A72;
+  border-radius: 4px;
+  padding: 2rem 1.8rem;
+  margin-bottom: 1.2rem;
 }
 
-.quote-card.dark::before {
-  background: #5C3D2E;
+.quote-card.dark .quote-inner {
+  border-color: #E8A672;
 }
 
-/* Opening quote mark */
-.quote-bg-mark {
+*/
+
+/* Opening " — overlaps top-left corner of the border */
+
+/*
+.quote-mark-open {
   position: absolute;
-  top: 1.5rem;
-  left: 2rem;
+  top: -1.1rem;
+  left: -0.5rem;
   font-family: 'Lora', serif;
-  font-size: 3rem;
-  color: var(--warm-gold);
-  opacity: 0.08;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #C49A72;
   line-height: 1;
+  background: #FAF6F0;
+  padding: 0 0.25rem;
   pointer-events: none;
   user-select: none;
-  z-index: 1;
 }
-
-/* Closing quote mark — bottom-right corner */
-.quote-end-mark {
+*/
+/* Closing " — overlaps bottom-right corner of the border */
+/*
+.quote-mark-close {
   position: absolute;
-  bottom: 1.5rem;
-  right: 2rem;
+  bottom: -1.1rem;
+  right: -0.5rem;
   font-family: 'Lora', serif;
-  font-size: 3rem;
-  color: var(--warm-gold);
-  opacity: 0.35;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #C49A72;
   line-height: 1;
+  background: #FAF6F0;
+  padding: 0 0.25rem;
   pointer-events: none;
   user-select: none;
-  z-index: 1;
 }
 
-.quote-card.dark .quote-bg-mark,
-.quote-card.dark .quote-end-mark {
+.quote-card.dark .quote-mark-open,
+.quote-card.dark .quote-mark-close {
   color: #E8A672;
-  opacity: 0.25;
+  background: #2A201A;
 }
 
 .quote-text {
   font-family: 'Lora', serif;
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  line-height: 1.8;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.9;
   color: var(--text-light);
   font-style: italic;
-  position: relative;
-  z-index: 1;
   direction: rtl;
   text-align: right;
+  margin: 0;
 }
 
 .quote-text span {
@@ -99,17 +105,16 @@
 .quote-card.dark .quote-text {
   color: #FAF6F0;
 }
+*/
 
+/* Author sits outside the bordered box, bottom-right */
+/*
 .quote-footer {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(250, 246, 240, 0.15);
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  position: relative;
-  z-index: 1;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
 }
 
 .quote-meta {
@@ -118,8 +123,8 @@
 }
 
 .quote-author {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-family: 'Amiri', serif;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--warm-gold);
 }
@@ -144,42 +149,357 @@
 
 .btn-mood {
   background: rgba(232, 166, 114, 0.12);
-  border: 1.5px solid rgba(232, 166, 114, 0.4);
+  border: 1.5px solid rgba(232, 166, 114, 0.35);
   color: var(--text-light);
-  padding: 0.5rem 1.2rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 999px;
   cursor: pointer;
   font-family: 'Amiri', serif;
-  font-size: 0.9rem;
+  font-size: 1rem;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
 
-.quote-card.dark .btn-mood {
-  background: rgba(250, 246, 240, 0.15);
-  border-color: rgba(250, 246, 240, 0.4);
-  color: #FAF6F0;
+.btn-mood:hover {
+  background: rgba(232, 166, 114, 0.25);
+  transform: translateY(-1px);
 }
 
-/* ── Mobile < 768px ── */
+.dark .btn-mood {
+  background: rgba(232, 166, 114, 0.12);
+  border-color: rgba(232, 166, 114, 0.35);
+  color: var(--warm-gold);
+}
+
+*/
+
+
+/* Skeleton */
+/*
+.quote-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.skeleton-line {
+  border-radius: 6px;
+  height: 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 154, 114, 0.12) 25%,
+    rgba(196, 154, 114, 0.28) 50%,
+    rgba(196, 154, 114, 0.12) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-line-long   { width: 88%; margin-left: auto; }
+.skeleton-line-medium { width: 70%; margin-left: auto; }
+.skeleton-line-short  { width: 52%; margin-left: auto; }
+.skeleton-line-author { width: 110px; height: 0.85rem; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.quote-card.dark .skeleton-line {
+  background: linear-gradient(
+    90deg,
+    rgba(232, 166, 114, 0.08) 25%,
+    rgba(232, 166, 114, 0.2) 50%,
+    rgba(232, 166, 114, 0.08) 75%
+  );
+  background-size: 200% 100%;
+}
+*/
+
+
+/* Mobile */
+
+/*
 @media (max-width: 767px) {
   .quote-card {
     padding: 1.8rem 1.5rem 1.5rem;
     border-radius: 18px;
   }
 
+  .quote-inner {
+    padding: 1.5rem 1.2rem;
+  }
+
   .quote-text {
-    font-size: 1.05rem;
+    font-size: 1rem;
+  }
+}
+
+*/
+
+.quote-card {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 24px;
+  position: relative;
+  box-shadow: 0 16px 56px rgba(232, 132, 114, 0.25);
+  animation: fadeSlideUp 0.6s ease forwards;
+  display: flex;
+  flex-direction: column;
+  background: #FAF6F0;
+  padding: 2.5rem 2.5rem 2rem;
+}
+
+.quote-card.dark {
+  background: #2A201A;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* The inner bordered box that frames the quote text */
+.quote-inner {
+  position: relative;
+  border: 1.5px solid #C49A72;
+  border-radius: 4px;
+  padding: 2rem 1.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.quote-card.dark .quote-inner {
+  border-color: #E8A672;
+}
+
+/* Opening " — overlaps top-left corner of the border */
+.quote-mark-open {
+  position: absolute;
+  top: -1.1rem;
+  left: -0.5rem;
+  font-family: 'Lora', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #C49A72;
+  line-height: 1;
+  background: #FAF6F0;
+  padding: 0 0.25rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Closing " — overlaps bottom-right corner of the border */
+.quote-mark-close {
+  position: absolute;
+  bottom: -1.1rem;
+  right: -0.5rem;
+  font-family: 'Lora', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #C49A72;
+  line-height: 1;
+  background: #FAF6F0;
+  padding: 0 0.25rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.quote-card.dark .quote-mark-open,
+.quote-card.dark .quote-mark-close {
+  color: #E8A672;
+  background: #2A201A;
+}
+
+.quote-text {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.9;
+  color: var(--text-light);
+  font-style: italic;
+  direction: rtl;
+  text-align: right;
+  margin: 0;
+}
+
+.quote-text span {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.quote-text span:last-child {
+  margin-bottom: 0;
+}
+
+.quote-card.dark .quote-text {
+  color: #FAF6F0;
+}
+
+/* Author sits outside the bordered box, bottom-right */
+.quote-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+.quote-meta {
+  direction: rtl;
+  text-align: right;
+}
+
+.quote-author {
+  font-family: 'Amiri', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--warm-gold);
+}
+
+.quote-book {
+  font-family: 'Lora', serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-light);
+  opacity: 0.6;
+}
+
+.quote-book::before {
+  content: "، ";
+  font-style: normal;
+}
+
+.quote-card.dark .quote-book {
+  color: #FAF6F0;
+  opacity: 0.7;
+}
+
+.btn-mood {
+  background: rgba(232, 166, 114, 0.12);
+  border: 1.5px solid rgba(232, 166, 114, 0.35);
+  color: var(--text-light);
+  padding: 0.6rem 1.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: 'Amiri', serif;
+  font-size: 1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-mood:hover {
+  background: rgba(232, 166, 114, 0.25);
+  transform: translateY(-1px);
+}
+
+.dark .btn-mood {
+  background: rgba(232, 166, 114, 0.12);
+  border-color: rgba(232, 166, 114, 0.35);
+  color: var(--warm-gold);
+}
+
+/* Skeleton */
+.quote-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.skeleton-line {
+  border-radius: 6px;
+  height: 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 154, 114, 0.12) 25%,
+    rgba(196, 154, 114, 0.28) 50%,
+    rgba(196, 154, 114, 0.12) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-line-long   { width: 88%; margin-left: auto; }
+.skeleton-line-medium { width: 70%; margin-left: auto; }
+.skeleton-line-short  { width: 52%; margin-left: auto; }
+.skeleton-line-author { width: 110px; height: 0.85rem; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.quote-card.dark .skeleton-line {
+  background: linear-gradient(
+    90deg,
+    rgba(232, 166, 114, 0.08) 25%,
+    rgba(232, 166, 114, 0.2) 50%,
+    rgba(232, 166, 114, 0.08) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .quote-card {
+    padding: 1.8rem 1.5rem 1.5rem;
+    border-radius: 18px;
   }
 
-  .quote-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  .quote-inner {
+    padding: 1.5rem 1.2rem;
   }
 
-  .quote-meta {
-    align-self: flex-end;
+  .quote-text {
+    font-size: 1rem;
   }
+}
+
+/* Cycling loading phrase inside skeleton */
+.loading-phrase {
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  color: #C49A72;
+  direction: rtl;
+  text-align: right;
+  margin: 0 0 1rem 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.loading-phrase.visible {
+  opacity: 1;
+}
+
+.quote-card.dark .loading-phrase {
+  color: #E8A672;
+}
+
+/* Override loading phrase to be centered */
+.quote-skeleton {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-phrase {
+  font-family: 'Amiri', serif;
+  font-size: 1.2rem;
+  color: #C49A72;
+  direction: rtl;
+  text-align: center;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.loading-phrase.visible {
+  opacity: 1;
+}
+
+.quote-card.dark .loading-phrase {
+  color: #E8A672;
 }
