@@ -1,17 +1,24 @@
 from pathlib import Path
+from datetime import timedelta
 import environ
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load .env file
+# Load .env file (local dev only, ignored on Railway)
 env = environ.Env()
-environ.Env.read_env(BASE_DIR / '.env')
+environ.Env.read_env(BASE_DIR / '.env', overwrite=False)
 
 # Security
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[
+    'localhost',
+    '127.0.0.1',
+    'wanas-production.up.railway.app',
+    '.railway.app',
+    '.vercel.app',
+])
 
 # Installed apps
 INSTALLED_APPS = [
@@ -26,7 +33,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'quotes',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +89,7 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -96,16 +104,16 @@ REST_FRAMEWORK = {
 }
 
 # SimpleJWT
-from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
 }
 
-# CORS — allow React dev server
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
+# CORS
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
-])
+    'https://wanas-delta.vercel.app',
+]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+CORS_ALLOW_ALL_ORIGINS = False
