@@ -22,6 +22,7 @@ export default function Home({ dark }) {
   const [lastQuoteId, setLastQuoteId] = useState(null)
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [phraseVisible, setPhraseVisible] = useState(true)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     getMoods().then(data => setMoods(data)).catch(() => {})
@@ -38,6 +39,18 @@ export default function Home({ dark }) {
     }, 2200)
     return () => clearInterval(cycle)
   }, [loading])
+
+  const handleCopy = () => {
+    if (!quote) return
+    const attribution = quote.book
+      ? `— ${quote.author}، ${quote.book}`
+      : `— ${quote.author}`
+    const text = `❝ ${quote.text} ❞\n\n${attribution}`
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   const fetchQuote = async (moodId = null, retries = 3) => {
     setLoading(true)
@@ -109,11 +122,30 @@ export default function Home({ dark }) {
             </div>
 
             <footer className="quote-footer">
-              {!loading && (
-                <div className="quote-meta">
-                  <span className="quote-author">— {quote.author}</span>
-                  {quote.book && <span className="quote-book">{quote.book}</span>}
-                </div>
+              {!loading && quote && (
+                <>
+                  <div className="quote-meta">
+                    <span className="quote-author">— {quote.author}</span>
+                    {quote.book && <span className="quote-book">{quote.book}</span>}
+                  </div>
+                  <button
+                    className={`btn-copy${copied ? ' copied' : ''}`}
+                    onClick={handleCopy}
+                    title="نسخ"
+                    aria-label="نسخ الاقتباس"
+                  >
+                    {copied ? (
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    ) : (
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      </svg>
+                    )}
+                  </button>
+                </>
               )}
             </footer>
           </article>
