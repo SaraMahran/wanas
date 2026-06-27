@@ -1,4 +1,3 @@
-
 .quote-card {
   width: 100%;
   max-width: 480px;
@@ -21,7 +20,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* The inner bordered box that frames the quote text */
 .quote-inner {
   position: relative;
   border: 1.5px solid #C49A72;
@@ -34,7 +32,6 @@
   border-color: #E8A672;
 }
 
-/* Opening " — overlaps top-left corner of the border */
 .quote-mark-open {
   position: absolute;
   top: -1.1rem;
@@ -50,7 +47,6 @@
   user-select: none;
 }
 
-/* Closing " — overlaps bottom-right corner of the border */
 .quote-mark-close {
   position: absolute;
   bottom: -1.1rem;
@@ -96,12 +92,11 @@
   color: #FAF6F0;
 }
 
-/* Author sits outside the bordered box, bottom-right */
 .quote-footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding-top: 0.5rem;
 }
 
@@ -135,6 +130,43 @@
   opacity: 0.7;
 }
 
+/* Copy button */
+.btn-copy {
+  background: none;
+  border: 1.5px solid rgba(196, 154, 114, 0.35);
+  color: #C49A72;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.btn-copy:hover {
+  background: rgba(196, 154, 114, 0.12);
+  transform: scale(1.05);
+}
+
+.btn-copy.copied {
+  border-color: #C49A72;
+  background: rgba(196, 154, 114, 0.15);
+  color: #C49A72;
+}
+
+.quote-card.dark .btn-copy {
+  color: #E8A672;
+  border-color: rgba(232, 166, 114, 0.35);
+}
+
+.quote-card.dark .btn-copy.copied {
+  background: rgba(232, 166, 114, 0.15);
+}
+
 .btn-mood {
   background: rgba(232, 166, 114, 0.12);
   border: 1.5px solid rgba(232, 166, 114, 0.35);
@@ -162,10 +194,10 @@
 
 /* Skeleton */
 .quote-skeleton {
+  min-height: 120px;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 0.25rem 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .skeleton-line {
@@ -201,50 +233,6 @@
   background-size: 200% 100%;
 }
 
-/* Mobile */
-@media (max-width: 767px) {
-  .quote-card {
-    padding: 1.8rem 1.5rem 1.5rem;
-    border-radius: 18px;
-  }
-
-  .quote-inner {
-    padding: 1.5rem 1.2rem;
-  }
-
-  .quote-text {
-    font-size: 1rem;
-  }
-}
-
-/* Cycling loading phrase inside skeleton */
-.loading-phrase {
-  font-family: 'Amiri', serif;
-  font-size: 1.1rem;
-  color: #C49A72;
-  direction: rtl;
-  text-align: right;
-  margin: 0 0 1rem 0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.loading-phrase.visible {
-  opacity: 1;
-}
-
-.quote-card.dark .loading-phrase {
-  color: #E8A672;
-}
-
-/* Override loading phrase to be centered */
-.quote-skeleton {
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .loading-phrase {
   font-family: 'Amiri', serif;
   font-size: 1.2rem;
@@ -262,4 +250,20 @@
 
 .quote-card.dark .loading-phrase {
   color: #E8A672;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .quote-card {
+    padding: 1.8rem 1.5rem 1.5rem;
+    border-radius: 18px;
+  }
+
+  .quote-inner {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .quote-text {
+    font-size: 1rem;
+  }
 }

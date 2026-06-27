@@ -4,20 +4,45 @@ import '../../components/QuoteCard/QuoteCard.css'
 import './Home.css'
 import { getRandomQuote, getMoods } from '../../services/quotes'
 
+const LOADING_PHRASES = [
+  'ونيس يؤنس روحي في ليالى الصمت',
+  'كتاب يعرف الطريق إلى قلبي',
+  'كلمات من نور تدغدغ ظلمة الليل',
+  'بين يديّ كتاب يحمل العالم كله إلي',
+  'خيال يهوّن من قسوة الواقع',
+]
+
 export default function Home({ dark }) {
   const [quote, setQuote] = useState(null)
   const [loading, setLoading] = useState(false)
   const [showMoods, setShowMoods] = useState(false)
   const [moods, setMoods] = useState([])
   const [lastQuoteId, setLastQuoteId] = useState(null)
+  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [phraseVisible, setPhraseVisible] = useState(true)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     getMoods().then(data => setMoods(data)).catch(() => {})
   }, [])
 
+  useEffect(() => {
+    if (!loading) return
+    const cycle = setInterval(() => {
+      setPhraseVisible(false)
+      setTimeout(() => {
+        setPhraseIndex(i => (i + 1) % LOADING_PHRASES.length)
+        setPhraseVisible(true)
+      }, 400)
+    }, 2200)
+    return () => clearInterval(cycle)
+  }, [loading])
+
   const fetchQuote = async (moodId = null, retries = 3) => {
     setLoading(true)
+    setPhraseVisible(true)
     setShowMoods(false)
+    setCopied(false)
     try {
       let data = await getRandomQuote(moodId)
       let attempts = 0
@@ -33,6 +58,17 @@ export default function Home({ dark }) {
       setLoading(false)
     }
   }
+
+const copyQuote = () => {
+  if (!quote) return
+  const author = quote.author || ''
+  const book = quote.book ? `، ${quote.book}` : ''
+  const text = `❝\n${quote.text}\n❞\n\n— ${author}${book}`
+  navigator.clipboard.writeText(text).then(() => {
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  })
+}
 
   const renderQuoteText = (text) => {
     const lines = text.split('\n')
@@ -70,9 +106,9 @@ export default function Home({ dark }) {
 
               {loading ? (
                 <div className="quote-skeleton">
-                  <div className="skeleton-line skeleton-line-long" />
-                  <div className="skeleton-line skeleton-line-medium" />
-                  <div className="skeleton-line skeleton-line-short" />
+                  <p className={`loading-phrase ${phraseVisible ? 'visible' : ''}`}>
+                    {LOADING_PHRASES[phraseIndex]}
+                  </p>
                 </div>
               ) : (
                 <blockquote className="quote-text">
@@ -84,15 +120,20 @@ export default function Home({ dark }) {
             </div>
 
             <footer className="quote-footer">
-              {loading ? (
-                <div className="quote-meta">
-                  <div className="skeleton-line skeleton-line-author" />
-                </div>
-              ) : (
-                <div className="quote-meta">
-                  <span className="quote-author">— {quote.author}</span>
-                  {quote.book && <span className="quote-book">{quote.book}</span>}
-                </div>
+              {!loading && (
+                <>
+                  <button
+                    className={`btn-copy ${copied ? 'copied' : ''}`}
+                    onClick={copyQuote}
+                    title="نسخ الاقتباس"
+                  >
+                    {copied ? '✓' : '❝❞'}
+                  </button>
+                  <div className="quote-meta">
+                    <span className="quote-author">— {quote.author}</span>
+                    {quote.book && <span className="quote-book">{quote.book}</span>}
+                  </div>
+                </>
               )}
             </footer>
           </article>
